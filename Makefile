@@ -55,7 +55,7 @@ CFLAGS = -c -mcpu=$(MACH) -mthumb -std=gnu11
 #Includes
 INCFLAGS = -I$(INCDIR)
 INCFLAGS += -I$(INC_CMSIS)
-INCFLAGS += -I$(INC_CMSIS_DEVICE) -D $(CHIP)
+INCFLAGS += -I$(INC_CMSIS_DEVICE)
 INCFLAGS += -I$(HALINCDIR)
 INCFLAGS += -I$(HALINCDIR)/Legacy
 
@@ -98,9 +98,9 @@ $(OBJDIR)/%.o : $(SRCDIR)/%.c
 $(TARGET) : ${OBJS} 
 	mkdir -p $(@D)
 	$(CC) $(LDFLAGS) $(DBGCFLAGS) $^ -o $@
-	@echo "-----------------------------"
-	@echo "---   Target Build Done   ---"
-	@echo "-----------------------------"
+	@echo "*****************************"
+	@echo "***   Target Build Done   ***"
+	@echo "*****************************"
 
 clean : 
 	rm -rf $(OBJDIR) $(TARGETDIR)
