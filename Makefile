@@ -92,8 +92,9 @@ INCFLAGS += -I$(HAL_INCDIR)/Legacy
 
 # Linker Flags
 LDFLAGS = -T stm32_ls.ld #-Wl,-Map=final.map
-LDFLAGS += -nostdlib 
-LDFLAGS += -lgcc
+LDFLAGS += -nostartfiles 
+#LDFLAGS += -nostdlib
+#LDFLAGS += -lgcc
 
 # Debug Flags
 DBGCFLAGS = -g -O0 -DDEBUG
@@ -121,7 +122,7 @@ DBG_CMDS += -c 'reset halt'
 ################### MAKE #####################
 ##############################################
 
-.PHONY = all clean debug flash gdb echoes hal clean-hal
+.PHONY = all clean clean-all debug flash gdb echoes hal clean-hal
 
 all : $(TARGET)
 
@@ -144,7 +145,11 @@ $(TARGET) : $(CMSIS_OBJS) $(HAL_OBJS) ${MAIN_OBJS}
 	@echo "***   Target Build Done   ***"
 	@echo "*****************************"
 
-clean : 
+clean :
+	rm -rf $(TARGET) $(MAIN_OBJDIR)
+
+
+clean-al : 
 	rm -rf $(BUILD_DIR)
 
 debug : $(TARGET)
