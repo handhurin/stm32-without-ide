@@ -55,7 +55,8 @@ int main(void){
         GPIOD->ODR ^= (1 << LED4_PIN);		            /* Toggle LED4		    	    */	
 	    GPIOD->ODR ^= (1 << LED5_PIN);		            /* Toggle LED5		    	    */
         GPIOD->ODR ^= (1 << LED3_PIN);		            /* Toggle LED3		    	    */	
-	    GPIOD->ODR ^= (1 << LED6_PIN);		            /* Toggle LED6		    	    */		
-	    delay_ms(500);                                  /* 500ms delay for 1Hz blinking */
+	    GPIOD->ODR ^= (1 << LED6_PIN);		            /* Toggle LED6		    	    */	
+        HAL_Delay(500);	
+	    //delay_ms(500);                                  /* 500ms delay for 1Hz blinking */
     }
 }
