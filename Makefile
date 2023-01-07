@@ -95,7 +95,6 @@ LDFLAGS = -T stm32_ls.ld #-Wl,-Map=final.map
 LDFLAGS += -nostdlib 
 LDFLAGS += -lgcc
 
-
 # Debug Flags
 DBGCFLAGS = -g -O0 -DDEBUG
 
@@ -140,7 +139,7 @@ $(MAIN_OBJDIR)/%.o : $(MAIN_SRCDIR)/%.c
 
 $(TARGET) : $(CMSIS_OBJS) $(HAL_OBJS) ${MAIN_OBJS} 
 	mkdir -p $(@D)
-	$(CC) $(LDFLAGS) $(DBGCFLAGS) $^ -o $@
+	$(CC) $^ $(LDFLAGS) -o $@
 	@echo "*****************************"
 	@echo "***   Target Build Done   ***"
 	@echo "*****************************"
