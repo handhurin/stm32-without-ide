@@ -138,7 +138,7 @@ $(MAIN_OBJDIR)/%.o : $(MAIN_SRCDIR)/%.c
 	mkdir -p $(@D)
 	$(CC) $(CFLAGS) $(INCFLAGS) $(DBGCFLAGS) $^ -o $@
 
-$(TARGET) : ${MAIN_OBJS} 
+$(TARGET) : $(CMSIS_OBJS) $(HAL_OBJS) ${MAIN_OBJS} 
 	mkdir -p $(@D)
 	$(CC) $(LDFLAGS) $(DBGCFLAGS) $^ -o $@
 	@echo "*****************************"
