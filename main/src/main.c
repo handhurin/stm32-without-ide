@@ -20,6 +20,7 @@
 #include <stm32f4xx.h>
 
 #include "sysclock.h"
+#include "main.h"
 
 /************************** Constant Definitions *****************************/
 #define LED3_PIN                         13U

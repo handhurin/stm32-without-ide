@@ -41,9 +41,9 @@ MAIN_SRCDIR = $(MAIN_DIR)/src
 MAIN_OBJDIR = $(BUILD_DIR)/main
 
 # Files
-SRCS = $(wildcard $(MAIN_SRCDIR)/*.c)
-OBJS = $(SRCS:.c=.o)
-OBJS := $(subst $(MAIN_SRCDIR)/,$(MAIN_OBJDIR)/,$(OBJS))
+MAIN_SRCS = $(wildcard $(MAIN_SRCDIR)/*.c)
+MAIN_OBJS = $(MAIN_SRCS:.c=.o)
+MAIN_OBJS := $(subst $(MAIN_SRCDIR)/,$(MAIN_OBJDIR)/,$(MAIN_OBJS))
 TARGET = $(TARGET_DIR)/$(PROJ_NAME).elf
 
 ##############################################
@@ -57,6 +57,9 @@ CMSIS_SRCDIR_DEVICE = $(CMSIS_DIR)/Device/$(CHIP_VENDOR)/$(CHIP_FAMILLY)/Source
 CMSIS_OBJDIR = $(BUILD_DIR)/cmsis
 
 # CMSIS Files
+CMSIS_SRCS = $(wildcard $(CMSIS_SRCDIR_DEVICE)/*.c)
+CMSIS_OBJS = $(CMSIS_SRCS:.c=.o)
+CMSIS_OBJS := $(subst $(CMSIS_SRCDIR_DEVICE)/,$(CMSIS_OBJDIR)/,$(CMSIS_OBJS))
 
 ##############################################
 #################### HAL #####################
@@ -88,7 +91,10 @@ INCFLAGS += -I$(HAL_INCDIR)
 INCFLAGS += -I$(HAL_INCDIR)/Legacy
 
 # Linker Flags
-LDFLAGS = -T stm32_ls.ld -nostdlib #-Wl,-Map=final.map
+LDFLAGS = -T stm32_ls.ld #-Wl,-Map=final.map
+LDFLAGS += -nostdlib 
+LDFLAGS += -lgcc
+
 
 # Debug Flags
 DBGCFLAGS = -g -O0 -DDEBUG
@@ -120,6 +126,10 @@ DBG_CMDS += -c 'reset halt'
 
 all : $(TARGET)
 
+$(CMSIS_OBJDIR)/%.o : $(CMSIS_SRCDIR_DEVICE)/%.c
+	mkdir -p $(@D)
+	$(CC) $(CFLAGS) $(INCFLAGS) $(DBGCFLAGS) $^ -o $@ 
+
 $(HAL_OBJDIR)/%.o : $(HAL_SRCDIR)/%.c
 	mkdir -p $(@D)
 	$(CC) $(CFLAGS) $(INCFLAGS) $(DBGCFLAGS) $^ -o $@ 
@@ -128,7 +138,7 @@ $(MAIN_OBJDIR)/%.o : $(MAIN_SRCDIR)/%.c
 	mkdir -p $(@D)
 	$(CC) $(CFLAGS) $(INCFLAGS) $(DBGCFLAGS) $^ -o $@
 
-$(TARGET) : ${OBJS} 
+$(TARGET) : ${MAIN_OBJS} 
 	mkdir -p $(@D)
 	$(CC) $(LDFLAGS) $(DBGCFLAGS) $^ -o $@
 	@echo "*****************************"
@@ -148,4 +158,7 @@ gdb:
 	$(GDB) --eval-command="target remote localhost:3333" $(TARGET)
 
 echoes :
-	@echo "Test"
+	@echo "MAIN Directory : $(MAIN_DIR)"
+	@echo "TOOLS Directory : $(TOOLS_DIR)"
+	@echo "CMSIS Directory : $(CMSIS_DIR)"
+	@echo "HAL Directory : $(HAL_DIR)"
