@@ -3,8 +3,9 @@
 ##############################################
 
 PROJ_NAME=blink
-CHIP = STM32F4xx
 CHIP_VENDOR = ST
+CHIP_FAMILLY = STM32F4xx
+CHIP = STM32F407xx
 
 ##############################################
 
@@ -22,7 +23,7 @@ SRCDIR = $(WORKSPACE)/src
 OBJDIR = $(WORKSPACE)/obj
 CMSISDIR = $(WORKSPACE)/CMSIS
 INC_CMSIS = $(CMSISDIR)/Include
-INC_CMSIS_DEVICE = $(CMSISDIR)/Device/$(CHIP_VENDOR)/$(CHIP)/Include
+INC_CMSIS_DEVICE = $(CMSISDIR)/Device/$(CHIP_VENDOR)/$(CHIP_FAMILLY)/Include
 TARGETDIR = $(WORKSPACE)/target
 
 # Files
@@ -54,7 +55,7 @@ CFLAGS = -c -mcpu=$(MACH) -mthumb -std=gnu11
 #Includes
 INCFLAGS = -I$(INCDIR)
 INCFLAGS += -I$(INC_CMSIS)
-INCFLAGS += -I$(INC_CMSIS_DEVICE)
+INCFLAGS += -I$(INC_CMSIS_DEVICE) -D $(CHIP)
 INCFLAGS += -I$(HALINCDIR)
 INCFLAGS += -I$(HALINCDIR)/Legacy
 
@@ -90,17 +91,11 @@ $(HALOBJDIR)/%.o : $(HALSRCDIR)/%.c
 	mkdir -p $(@D)
 	$(CC) $(CFLAGS) $(INCFLAGS) $(DBGCFLAGS) $^ -o $@ 
 
-# $(HALLIB) : ${HALOBJS}
-# 	ar -rc $@ $^
-# 	@echo "-----------------------------"
-# 	@echo "---     Hal Lib Done      ---"
-# 	@echo "-----------------------------"
-
 $(OBJDIR)/%.o : $(SRCDIR)/%.c
 	mkdir -p $(@D)
 	$(CC) $(CFLAGS) $(INCFLAGS) $(DBGCFLAGS) $^ -o $@
 
-$(TARGET) : $(HALOBJS) ${OBJS} 
+$(TARGET) : ${OBJS} 
 	mkdir -p $(@D)
 	$(CC) $(LDFLAGS) $(DBGCFLAGS) $^ -o $@
 	@echo "-----------------------------"

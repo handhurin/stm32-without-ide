@@ -16,7 +16,10 @@
 #include "sysclock.h"
 
 /************************** Constant Definitions *****************************/
-#define LED_PIN    	    (5)		                /* 5 = PIN5 */
+#define LED4_PIN                         0x1000
+#define LED3_PIN                         0x2000
+#define LED5_PIN                         0x4000
+#define LED6_PIN                         0x8000
 
 /**************************** Type Definitions *******************************/
 
@@ -31,12 +34,12 @@ int main(){
 
     clock_init();
 
-    RCC->AHB1ENR |= (1 << RCC_AHB1ENR_GPIOAEN_Pos);     /* Enable clock on PORTA	    */
-    GPIOA->MODER |= (0x1 << (LED_PIN*2));               /* Set LED pin as OUTPUT	    */
-    GPIOA->ODR |= (1 << LED_PIN);		                /* Set LED output to 1		    */
+    RCC->AHB1ENR |= (1 << RCC_AHB1ENR_GPIODEN_Pos);     /* Enable clock on PORTD	    */
+    GPIOD->MODER |= (0x1 << (LED5_PIN*2));               /* Set LED pin as OUTPUT	    */
+    GPIOD->ODR |= (1 << LED5_PIN);		                /* Set LED output to 1		    */
 
     while(1){
-	    GPIOA->ODR ^= (1 << LED_PIN);		            /* Toggle the led			    */	
+	    GPIOD->ODR ^= (1 << LED5_PIN);		            /* Toggle the led			    */	
 	    delay_ms(500);                                  /* 500ms delay for 1Hz blinking */
     }
 }
