@@ -1,12 +1,16 @@
 # Blink Project - Merlin
 
 ##############################################
+################## PROJECT ###################
+##############################################
 
 PROJ_NAME=blink
 CHIP_VENDOR = ST
 CHIP_FAMILLY = STM32F4xx
 CHIP = STM32F407xx
 
+##############################################
+################### TOOLS ####################
 ##############################################
 
 # Tools
@@ -15,37 +19,57 @@ GDB = gdb
 OCD = openocd
 
 ##############################################
+################ DIRECTORIES #################
+##############################################
 
 # Directories
 WORKSPACE = .
-INCDIR = $(WORKSPACE)/inc
-SRCDIR = $(WORKSPACE)/src
-OBJDIR = $(WORKSPACE)/obj
-CMSISDIR = $(WORKSPACE)/CMSIS
-INC_CMSIS = $(CMSISDIR)/Include
-INC_CMSIS_DEVICE = $(CMSISDIR)/Device/$(CHIP_VENDOR)/$(CHIP_FAMILLY)/Include
-TARGETDIR = $(WORKSPACE)/target
+BUILDDIR = $(WORKSPACE)/build
+MAIN_DIR = $(WORKSPACE)/main
+CMSIS_DIR = $(WORKSPACE)/CMSIS
+HAL_DIR = $(WORKSPACE)/HAL
+TARGETDIR = $(BUILDDIR)/target
+
+##############################################
+################### MAIN #####################
+##############################################
+
+# Main Directories
+MAIN_INCDIR = $(MAIN_DIR)/inc
+MAIN_SRCDIR = $(MAIN_DIR)/src
+MAIN_OBJDIR = $(BUILDDIR)/main
 
 # Files
-TARGET = $(TARGETDIR)/$(PROJ_NAME).elf
-SRCS = $(wildcard $(SRCDIR)/*.c)
+SRCS = $(wildcard $(MAIN_SRCDIR)/*.c)
 OBJS = $(SRCS:.c=.o)
-OBJS := $(subst $(SRCDIR)/,$(OBJDIR)/,$(OBJS))
+OBJS := $(subst $(MAIN_SRCDIR)/,$(MAIN_OBJDIR)/,$(OBJS))
+TARGET = $(TARGETDIR)/$(PROJ_NAME).elf
 
+##############################################
+################### CMSIS #####################
+##############################################
+
+# Main Directories
+
+INC_CMSIS = $(CMSIS_DIR)/Include
+INC_CMSIS_DEVICE = $(CMSIS_DIR)/Device/$(CHIP_VENDOR)/$(CHIP_FAMILLY)/Include
+
+##############################################
+#################### HAL #####################
 ##############################################
 
 # HAL Directories
-HALDIR = $(WORKSPACE)/HAL
-HALINCDIR = $(HALDIR)/Inc
-HALSRCDIR = $(HALDIR)/Src
-HALOBJDIR = $(HALDIR)/Obj
+HAL_INCDIR = $(HAL_DIR)/Inc
+HAL_SRCDIR = $(HAL_DIR)/Src
+HAL_OBJDIR = $(BUILDDIR)/hal
 
 # HAL Files
-HALSRCS = $(wildcard $(HALSRCDIR)/*.c $(HALSRCDIR)/Legacy/*.c)
-HALOBJS = $(HALSRCS:.c=.o)
-HALOBJS := $(subst $(HALSRCDIR)/,$(HALOBJDIR)/,$(HALOBJS))
-HALLIB = $(HALDIR)/libhal.a
+HAL_SRCS = $(wildcard $(HAL_SRCDIR)/*.c $(HAL_SRCDIR)/Legacy/*.c)
+HAL_OBJS = $(HAL_SRCS:.c=.o)
+HAL_OBJS := $(subst $(HAL_SRCDIR)/,$(HAL_OBJDIR)/,$(HAL_OBJS))
 
+##############################################
+################### FLAGS ####################
 ##############################################
 
 # Compiler Flags
@@ -53,18 +77,21 @@ MACH = cortex-m4
 CFLAGS = -c -mcpu=$(MACH) -mthumb -std=gnu11
 
 #Includes
-INCFLAGS = -I$(INCDIR)
+INCFLAGS = -I$(MAIN_INCDIR)
 INCFLAGS += -I$(INC_CMSIS)
-INCFLAGS += -I$(INC_CMSIS_DEVICE)
-INCFLAGS += -I$(HALINCDIR)
-INCFLAGS += -I$(HALINCDIR)/Legacy
+INCFLAGS += -I$(INC_CMSIS_DEVICE) -D $(CHIP)
+INCFLAGS += -I$(HAL_INCDIR)
+INCFLAGS += -I$(HAL_INCDIR)/Legacy
 
 # Linker Flags
 LDFLAGS = -T stm32_ls.ld -nostdlib #-Wl,-Map=final.map
-#LDFLAGS += -L$(HALDIR) -lhal
 
 # Debug Flags
 DBGCFLAGS = -g -O0 -DDEBUG
+
+##############################################
+################ OCD CONFIGS #################
+##############################################
 
 # OCD configuration
 OCD_DBG = interface/stlink-v2-1.cfg
@@ -82,16 +109,18 @@ DBG_CMDS += -c 'program $(TARGET)'
 DBG_CMDS += -c 'reset halt'
 
 ##############################################
+################### MAKE #####################
+##############################################
 
 .PHONY = all clean debug flash gdb echoes hal clean-hal
 
 all : $(TARGET)
 
-$(HALOBJDIR)/%.o : $(HALSRCDIR)/%.c
+$(HAL_OBJDIR)/%.o : $(HAL_SRCDIR)/%.c
 	mkdir -p $(@D)
 	$(CC) $(CFLAGS) $(INCFLAGS) $(DBGCFLAGS) $^ -o $@ 
 
-$(OBJDIR)/%.o : $(SRCDIR)/%.c
+$(MAIN_OBJDIR)/%.o : $(MAIN_SRCDIR)/%.c
 	mkdir -p $(@D)
 	$(CC) $(CFLAGS) $(INCFLAGS) $(DBGCFLAGS) $^ -o $@
 
@@ -103,8 +132,7 @@ $(TARGET) : ${OBJS}
 	@echo "*****************************"
 
 clean : 
-	rm -rf $(OBJDIR) $(TARGETDIR)
-	rm -rf $(HALOBJDIR) $(HALLIB)
+	rm -rf $(BUILDDIR)
 
 debug : $(TARGET)
 	$(OCD) -f $(OCD_DBG) -f $(OCD_CHIP) -c init $(DBG_CMDS)
@@ -116,4 +144,4 @@ gdb:
 	$(GDB) --eval-command="target remote localhost:3333" $(TARGET)
 
 echoes :
-	@echo "Hal lib files : $(HALLIB)"
+	@echo "Test"
