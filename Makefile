@@ -24,11 +24,12 @@ OCD = openocd
 
 # Directories
 WORKSPACE = .
-BUILDDIR = $(WORKSPACE)/build
+BUILD_DIR = $(WORKSPACE)/build
 MAIN_DIR = $(WORKSPACE)/main
-CMSIS_DIR = $(WORKSPACE)/CMSIS
-HAL_DIR = $(WORKSPACE)/HAL
-TARGETDIR = $(BUILDDIR)/target
+TOOLS_DIR = $(WORKSPACE)/tools
+CMSIS_DIR = $(TOOLS_DIR)/CMSIS
+HAL_DIR = $(TOOLS_DIR)/HAL
+TARGET_DIR = $(BUILD_DIR)/target
 
 ##############################################
 ################### MAIN #####################
@@ -37,22 +38,25 @@ TARGETDIR = $(BUILDDIR)/target
 # Main Directories
 MAIN_INCDIR = $(MAIN_DIR)/inc
 MAIN_SRCDIR = $(MAIN_DIR)/src
-MAIN_OBJDIR = $(BUILDDIR)/main
+MAIN_OBJDIR = $(BUILD_DIR)/main
 
 # Files
 SRCS = $(wildcard $(MAIN_SRCDIR)/*.c)
 OBJS = $(SRCS:.c=.o)
 OBJS := $(subst $(MAIN_SRCDIR)/,$(MAIN_OBJDIR)/,$(OBJS))
-TARGET = $(TARGETDIR)/$(PROJ_NAME).elf
+TARGET = $(TARGET_DIR)/$(PROJ_NAME).elf
 
 ##############################################
 ################### CMSIS #####################
 ##############################################
 
-# Main Directories
+# CMSIS Directories
+CMSIS_INCDIR = $(CMSIS_DIR)/Include
+CMSIS_INCDIR_DEVICE = $(CMSIS_DIR)/Device/$(CHIP_VENDOR)/$(CHIP_FAMILLY)/Include
+CMSIS_SRCDIR_DEVICE = $(CMSIS_DIR)/Device/$(CHIP_VENDOR)/$(CHIP_FAMILLY)/Source
+CMSIS_OBJDIR = $(BUILD_DIR)/cmsis
 
-INC_CMSIS = $(CMSIS_DIR)/Include
-INC_CMSIS_DEVICE = $(CMSIS_DIR)/Device/$(CHIP_VENDOR)/$(CHIP_FAMILLY)/Include
+# CMSIS Files
 
 ##############################################
 #################### HAL #####################
@@ -61,7 +65,7 @@ INC_CMSIS_DEVICE = $(CMSIS_DIR)/Device/$(CHIP_VENDOR)/$(CHIP_FAMILLY)/Include
 # HAL Directories
 HAL_INCDIR = $(HAL_DIR)/Inc
 HAL_SRCDIR = $(HAL_DIR)/Src
-HAL_OBJDIR = $(BUILDDIR)/hal
+HAL_OBJDIR = $(BUILD_DIR)/hal
 
 # HAL Files
 HAL_SRCS = $(wildcard $(HAL_SRCDIR)/*.c $(HAL_SRCDIR)/Legacy/*.c)
@@ -78,8 +82,8 @@ CFLAGS = -c -mcpu=$(MACH) -mthumb -std=gnu11
 
 #Includes
 INCFLAGS = -I$(MAIN_INCDIR)
-INCFLAGS += -I$(INC_CMSIS)
-INCFLAGS += -I$(INC_CMSIS_DEVICE) -D $(CHIP)
+INCFLAGS += -I$(CMSIS_INCDIR)
+INCFLAGS += -I$(CMSIS_INCDIR_DEVICE) -D $(CHIP)
 INCFLAGS += -I$(HAL_INCDIR)
 INCFLAGS += -I$(HAL_INCDIR)/Legacy
 
@@ -132,7 +136,7 @@ $(TARGET) : ${OBJS}
 	@echo "*****************************"
 
 clean : 
-	rm -rf $(BUILDDIR)
+	rm -rf $(BUILD_DIR)
 
 debug : $(TARGET)
 	$(OCD) -f $(OCD_DBG) -f $(OCD_CHIP) -c init $(DBG_CMDS)
