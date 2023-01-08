@@ -1,0 +1,4 @@
+{
+    "cortex-debug.gdbPath": "/usr/local/bin/gdb",
+    "cortex-debug.openocdPath": "/usr/local/bin/openocd",
+}
