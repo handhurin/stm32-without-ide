@@ -44,7 +44,7 @@ MAIN_OBJDIR = $(BUILD_DIR)/main
 MAIN_SRCS = $(wildcard $(MAIN_SRCDIR)/*.c)
 MAIN_OBJS = $(MAIN_SRCS:.c=.o)
 MAIN_OBJS := $(subst $(MAIN_SRCDIR)/,$(MAIN_OBJDIR)/,$(MAIN_OBJS))
-TARGET = $(TARGET_DIR)/$(PROJ_NAME).elf
+TARGET = $(TARGET_DIR)/final.elf
 
 ##############################################
 ################### CMSIS #####################
