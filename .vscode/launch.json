@@ -8,6 +8,7 @@
             "cwd": "${workspaceRoot}",
             "executable": "./build/target/final.elf",
             "name": "Debug with OpenOCD",
+            "preLaunchTask": "Build Program",
             "request": "launch",
             "type": "cortex-debug",
             "servertype": "openocd",
