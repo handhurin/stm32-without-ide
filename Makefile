@@ -149,7 +149,7 @@ clean :
 	rm -rf $(TARGET) $(MAIN_OBJDIR)
 
 
-clean-al : 
+clean-all : 
 	rm -rf $(BUILD_DIR)
 
 debug : $(TARGET)
