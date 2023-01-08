@@ -50,12 +50,12 @@ int main(void){
   clock_init();
   GPIO_Init();  
 
-  HAL_Init();
-  __HAL_RCC_SYSCFG_CLK_ENABLE();
-  __HAL_RCC_PWR_CLK_ENABLE();
-  HAL_NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_0);
+  // HAL_Init();
+  // __HAL_RCC_SYSCFG_CLK_ENABLE();
+  // __HAL_RCC_PWR_CLK_ENABLE();
+  // HAL_NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_0);
   
-  SystemClock_Config();
+  // SystemClock_Config();
 
   /*Set LEDs default state*/
   HAL_GPIO_WritePin(LD4_GPIO_Port, LD4_Pin, GPIO_PIN_RESET);

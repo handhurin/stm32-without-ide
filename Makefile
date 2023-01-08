@@ -8,15 +8,23 @@ PROJ_NAME=blink
 CHIP_VENDOR = ST
 CHIP_FAMILLY = STM32F4xx
 CHIP = STM32F407xx
+HOST_OS = $(shell uname)
 
 ##############################################
 ################### TOOLS ####################
 ##############################################
 
 # Tools
-CC = arm-none-eabi-gcc
-GDB = gdb
-OCD = openocd
+ifeq ($(HOST_OS), Darwin) 
+	CC = /usr/local/bin/arm-none-eabi-gcc
+	GDB = /usr/local/bin/gdb
+	OCD = /usr/local/bin/openocd
+endif
+ifeq ($(HOST_OS), Linux)
+	CC = /usr/bin/arm-none-eabi-gcc
+	GDB = /usr/bin/gdb-multiarch
+	OCD = /usr/local/bin/openocd
+endif
 
 ##############################################
 ################ DIRECTORIES #################
@@ -162,6 +170,7 @@ gdb:
 	$(GDB) --eval-command="target remote localhost:3333" $(TARGET)
 
 echoes :
+	@echo "Host OS : $(HOST_OS)"
 	@echo "MAIN Directory : $(MAIN_DIR)"
 	@echo "TOOLS Directory : $(TOOLS_DIR)"
 	@echo "CMSIS Directory : $(CMSIS_DIR)"
