@@ -92,9 +92,9 @@ INCFLAGS += -I$(HAL_INCDIR)/Legacy
 
 # Linker Flags
 LDFLAGS = -T stm32_ls.ld #-Wl,-Map=final.map
-LDFLAGS += -nostartfiles 
-#LDFLAGS += -nostdlib
-#LDFLAGS += -lgcc
+#LDFLAGS += -nostartfiles 
+LDFLAGS += -nostdlib
+LDFLAGS += -lgcc -lc -lm
 
 # Debug Flags
 DBGCFLAGS = -g -O0 -DDEBUG
