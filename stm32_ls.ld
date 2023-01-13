@@ -21,14 +21,16 @@ SECTIONS
 	.data :
 	{
 		_sdata = .;
-		*.(.data)
+		*(.data)
 		_edata = .;
 	}> SRAM AT> FLASH
 
 	.bss :
 	{
 		_sbss = .;
-		*.(.bss)
+		__bss_start__ = _sbss;
+		*(.bss)
 		_ebss = .;
+		__bss_end__ = _ebss;
 	}> SRAM
 }

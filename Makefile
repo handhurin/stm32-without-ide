@@ -89,7 +89,12 @@ HAL_OBJS := $(subst $(HAL_SRCDIR)/,$(HAL_OBJDIR)/,$(HAL_OBJS))
 
 # Compiler Flags
 MACH = cortex-m4
-CFLAGS = -c -mcpu=$(MACH) -mthumb -std=gnu11
+CFLAGS = -c -mcpu=$(MACH) -std=gnu11 
+CFLAGS += -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb
+CFLAGS += -O0 
+
+# Debug Flags
+DBGCFLAGS = -g3 -DDEBUG
 
 #Includes
 INCFLAGS = -I$(MAIN_INCDIR)
@@ -99,13 +104,9 @@ INCFLAGS += -I$(HAL_INCDIR)
 INCFLAGS += -I$(HAL_INCDIR)/Legacy
 
 # Linker Flags
-LDFLAGS = -T stm32_ls.ld #-Wl,-Map=final.map
-#LDFLAGS += -nostartfiles 
-LDFLAGS += -nostdlib
-LDFLAGS += -lgcc -lc -lm
-
-# Debug Flags
-DBGCFLAGS = -g -O0 -DDEBUG
+LDFLAGS = -mcpu=cortex-m4 -T stm32_ls.ld #-Wl,-Map=final.map
+LDFLAGS += -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb
+LDFLAGS += -lc -lm
 
 ##############################################
 ################ OCD CONFIGS #################
