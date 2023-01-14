@@ -10,12 +10,6 @@
  */
 
 /***************************** Include Files *********************************/
-
-//Declaration de la carte ici pour <stm32f4xx.h>
-#ifndef STM32F407xx
-#define STM32F407xx /*!< STM32F407VG, STM32F407VE, STM32F407ZG, STM32F407ZE, STM32F407IG and STM32F407IE Devices */
-#endif
-
 #include <stdint.h>
 #include <stm32f4xx.h>
 
