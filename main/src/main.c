@@ -19,26 +19,13 @@
 #include <stdint.h>
 #include <stm32f4xx.h>
 
-#include "stm32f4xx_hal.h"
-#include "sysclock.h"
+#include "main.h"
 
 /************************** Constant Definitions *****************************/
-#define LD4_Pin                     GPIO_PIN_12
-#define LD4_GPIO_Port               GPIOD
-#define LD3_Pin                     GPIO_PIN_13
-#define LD3_GPIO_Port               GPIOD
-#define LD5_Pin                     GPIO_PIN_14
-#define LD5_GPIO_Port               GPIOD
-#define LD6_Pin                     GPIO_PIN_15
-#define LD6_GPIO_Port               GPIOD
 
 /**************************** Type Definitions *******************************/
 
 /************************** Function Prototypes ******************************/
-
-static void GPIO_Init(void);
-void Error_Handler(void);
-void SystemClock_Config(void);
 
 /************************** Variable Definitions *****************************/
 
@@ -47,15 +34,14 @@ void SystemClock_Config(void);
 int main(void){
 
   //Initialisation des outils
-  clock_init();
   GPIO_Init();  
 
-  // HAL_Init();
-  // __HAL_RCC_SYSCFG_CLK_ENABLE();
-  // __HAL_RCC_PWR_CLK_ENABLE();
-  // HAL_NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_0);
+  HAL_Init();
+  __HAL_RCC_SYSCFG_CLK_ENABLE();
+  __HAL_RCC_PWR_CLK_ENABLE();
+  HAL_NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_0);
   
-  // SystemClock_Config();
+  SystemClock_Config();
 
   /*Set LEDs default state*/
   HAL_GPIO_WritePin(LD4_GPIO_Port, LD4_Pin, GPIO_PIN_RESET);
@@ -70,7 +56,7 @@ int main(void){
     HAL_GPIO_TogglePin(LD3_GPIO_Port, LD3_Pin);
     HAL_GPIO_TogglePin(LD6_GPIO_Port, LD6_Pin);
 
-    delay_ms(500);                                  /* 500ms delay for 1Hz blinking */
+    HAL_Delay(500);
   }
 }
 
