@@ -1,4 +1,7 @@
 {
     "cortex-debug.gdbPath": "/usr/local/bin/gdb",
     "cortex-debug.openocdPath": "/usr/local/bin/openocd",
+    "C_Cpp.default.defines": [
+        "STM32F407xx"
+    ],
 }
