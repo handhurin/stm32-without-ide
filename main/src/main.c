@@ -11,6 +11,7 @@
 
 /***************************** Include Files *********************************/
 #include <stdint.h>
+#include <stdio.h>
 #include <stm32f4xx.h>
 
 #include "main.h"
@@ -21,6 +22,8 @@
 
 /************************** Function Prototypes ******************************/
 
+extern void initialise_monitor_handles(UART_HandleTypeDef *huart);
+
 /************************** Variable Definitions *****************************/
 
 UART_HandleTypeDef huart2;
@@ -28,12 +31,14 @@ UART_HandleTypeDef huart2;
 /************************* Functions Definitions *****************************/
 
 int main(void){
+  //Initialisation des variables
 
   //Initialisation des outils
   HAL_Init();
   SystemClock_Config();
   GPIO_Init();
   USART2_UART_Init();  
+  initialise_monitor_handles(&huart2);
 
   /*Set LEDs default state*/
   HAL_GPIO_WritePin(LD4_GPIO_Port, LD4_Pin, GPIO_PIN_RESET);
@@ -48,9 +53,8 @@ int main(void){
     HAL_GPIO_TogglePin(LD3_GPIO_Port, LD3_Pin);
     HAL_GPIO_TogglePin(LD6_GPIO_Port, LD6_Pin);
 
-    uint8_t Test[] = "Hello World !!!\r\n"; //Data to send
-    HAL_UART_Transmit(&huart2,Test,sizeof(Test),10);// Sending in normal mode
-    
+    printf("Hello world\n");
+
     HAL_Delay(500);
   }
 }

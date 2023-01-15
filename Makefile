@@ -111,7 +111,7 @@ LDFLAGS += --specs=nosys.specs #Desactive le semihosting (utilise des ‘faux’
 LDFLAGS += -Wl,-Map=$(TARGET_MAP) #Ajoute la map du elf
 LDFLAGS += -mfpu=fpv4-sp-d16 -mfloat-abi=hard #Utilise les co-processeur qui gèrent les flottants
 LDFLAGS += -mthumb #Genere des instructions 16 pour optimiser le process
-LDFLAGS += -lc -lm #Inclu la lib c et la lib math
+LDFLAGS += -lc -lm -lgcc#Inclu la lib c, la lib math et la lib gcc
 
 ##############################################
 ################ OCD CONFIGS #################

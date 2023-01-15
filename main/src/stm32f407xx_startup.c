@@ -9,7 +9,7 @@
 extern uint32_t _etext;
 extern uint32_t _sdata;
 extern uint32_t _edata;
-extern uint32_t _la_data;
+extern uint32_t _sidata;
 
 extern uint32_t _sbss;
 extern uint32_t _ebss;
@@ -226,7 +226,7 @@ void Reset_Handler(void)
 	//copy .data section to SRAM
 	uint32_t size = (uint32_t)&_edata - (uint32_t)&_sdata;
 	uint8_t *pDst = (uint8_t*)&_sdata; //sram
-	uint8_t *pSrc = (uint8_t*)&_la_data; //flash
+	uint8_t *pSrc = (uint8_t*)&_sidata; //flash
 	for(uint32_t i =0 ; i < size ; i++)
 	{
 		*pDst++ = *pSrc++;
