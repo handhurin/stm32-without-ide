@@ -98,6 +98,7 @@
 
 int main(void);
 static void GPIO_Init(void);
+static void USART2_UART_Init(void);
 void Error_Handler(void);
 void SystemClock_Config(void);
 

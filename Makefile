@@ -8,6 +8,7 @@ PROJ_NAME=blink
 CHIP_VENDOR = ST
 CHIP_FAMILLY = STM32F4xx
 CHIP = STM32F407xx
+MACH = cortex-m4
 HOST_OS = $(shell uname)
 
 ##############################################
@@ -53,6 +54,7 @@ MAIN_SRCS = $(wildcard $(MAIN_SRCDIR)/*.c)
 MAIN_OBJS = $(MAIN_SRCS:.c=.o)
 MAIN_OBJS := $(subst $(MAIN_SRCDIR)/,$(MAIN_OBJDIR)/,$(MAIN_OBJS))
 TARGET = $(TARGET_DIR)/final.elf
+TARGET_MAP = $(TARGET:.elf=.map)
 
 ##############################################
 ################### CMSIS #####################
@@ -88,10 +90,10 @@ HAL_OBJS := $(subst $(HAL_SRCDIR)/,$(HAL_OBJDIR)/,$(HAL_OBJS))
 ##############################################
 
 # Compiler Flags
-MACH = cortex-m4
-CFLAGS = -c -mcpu=$(MACH) -std=gnu11 
-CFLAGS += -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb
-CFLAGS += -O0 
+CFLAGS = -c -mcpu=$(MACH) -std=gnu11 #Compile avec le processeur en utilisant utilisant le standard C11
+CFLAGS += -mfpu=fpv4-sp-d16 -mfloat-abi=hard #Utilise les co-processeur qui gèrent les flottants
+CFLAGS += -mthumb #Genere des instructions 16 pour optimiser le process
+CFLAGS += -O0 #Regle l'optimisation au niveau 0 (par defaut)
 
 # Debug Flags
 DBGCFLAGS = -g3 -DDEBUG
@@ -104,9 +106,12 @@ INCFLAGS += -I$(HAL_INCDIR)
 INCFLAGS += -I$(HAL_INCDIR)/Legacy
 
 # Linker Flags
-LDFLAGS = -mcpu=cortex-m4 -T stm32_ls.ld #-Wl,-Map=final.map
-LDFLAGS += -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb
-LDFLAGS += -lc -lm
+LDFLAGS = -mcpu=$(MACH) -T stm32_ls.ld #Indique le processeur et utilise le fichier de linkage indiquée
+LDFLAGS += --specs=nosys.specs #Desactive le semihosting (utilise des ‘faux’ fichier I/O and std I/O handlers)
+LDFLAGS += -Wl,-Map=$(TARGET_MAP) #Ajoute la map du elf
+LDFLAGS += -mfpu=fpv4-sp-d16 -mfloat-abi=hard #Utilise les co-processeur qui gèrent les flottants
+LDFLAGS += -mthumb #Genere des instructions 16 pour optimiser le process
+LDFLAGS += -lc -lm #Inclu la lib c et la lib math
 
 ##############################################
 ################ OCD CONFIGS #################

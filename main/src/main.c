@@ -23,14 +23,17 @@
 
 /************************** Variable Definitions *****************************/
 
+UART_HandleTypeDef huart2;
+
 /************************* Functions Definitions *****************************/
 
 int main(void){
 
   //Initialisation des outils
-  GPIO_Init();  
   HAL_Init();
   SystemClock_Config();
+  GPIO_Init();
+  USART2_UART_Init();  
 
   /*Set LEDs default state*/
   HAL_GPIO_WritePin(LD4_GPIO_Port, LD4_Pin, GPIO_PIN_RESET);
@@ -45,6 +48,9 @@ int main(void){
     HAL_GPIO_TogglePin(LD3_GPIO_Port, LD3_Pin);
     HAL_GPIO_TogglePin(LD6_GPIO_Port, LD6_Pin);
 
+    uint8_t Test[] = "Hello World !!!\r\n"; //Data to send
+    HAL_UART_Transmit(&huart2,Test,sizeof(Test),10);// Sending in normal mode
+    
     HAL_Delay(500);
   }
 }
@@ -111,6 +117,25 @@ static void GPIO_Init(void){
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
+}
+
+/**
+  * @brief USART2 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void USART2_UART_Init(void){
+  huart2.Instance = USART2;
+  huart2.Init.BaudRate = 115200;
+  huart2.Init.WordLength = UART_WORDLENGTH_8B;
+  huart2.Init.StopBits = UART_STOPBITS_1;
+  huart2.Init.Parity = UART_PARITY_NONE;
+  huart2.Init.Mode = UART_MODE_TX_RX;
+  huart2.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+  huart2.Init.OverSampling = UART_OVERSAMPLING_16;
+  if (HAL_UART_Init(&huart2) != HAL_OK){
+    Error_Handler();
+  }
 }
 
 /**
