@@ -11,6 +11,10 @@
 | HAL   | Hardware Abstraction Layer           |
 | MCU   | MicroController Unit                 |
 
+### Contexte
+Ce projet consiste en un développement de logiciel pour un microcontrôleur STM32 en utilisant un environnement de développement bare metal. Il n'utilise pas de système d'exploitation pour faire tourner le programme, mais accède directement au matériel. Cela nécessite une configuration manuelle des différents périphériques du microcontrôleur et une gestion directe de l'accès à la mémoire et aux entrées/sorties.
+
+Pour mettre en œuvre ce projet, les outils suivants ont été utilisés : Make pour automatiser le processus de construction, un GCC pour compiler le code source en code binaire exécutable, GDB pour déboguer le code et OpenOCD pour charger le programme et faire l'interface entre la carte et GDB. Un makefile est utilisé pour définir les étapes de la construction, les dépendances entre les fichiers et les options de compilation. Le compilateur **arm-none-eabi-gcc** est utilisé pour compiler les fichiers source et créer des fichiers binaires exécutables pour le microcontrôleur. Le debugger **gdb** (**gdb-multiarch**) est utilisé pour déboguer le code en cours d'exécution sur le matériel, permettant de suivre l'exécution du code, de mettre des points d'arrêt et d'inspecter les variables. Enfin, OpenOCD est utilisé pour charger le programme sur la carte et pour établir une interface entre la carte et GDB.
 
 ## Commandes
 
@@ -33,22 +37,28 @@ Les outils necessaires au fonctionnement de ce projet sont :
 - **openocd**
 
 ### Make
+Make est un outil de construction automatisé pour compiler les logiciels, il lit un fichier de configuration "makefile" pour construire les parties du logiciel, il permet de gagner du temps en ne recompilant que les parties modifiées et de gérer les dépendances entre différents fichiers pour créer des exécutables ou des bibliothèques.
+
 Pour installer l'outil make il faut executer la commande :
 - `sudo apt-get install make` sous *Ubuntu*
 - `brew install make` sous *MacOS*
 
 ### arm-none-eabi-gcc
+GCC est un outil important pour les étudiants en développement de systèmes embarqués. Il est un compilateur libre qui convertit les codes écrits dans divers langages en fichiers exécutables pour les processeurs embarqués. Il est utilisé pour construire des applications et des bibliothèques pour les systèmes embarqués, et peut générer des codes pour différentes architectures. Il est un outil polyvalent pour le développement de systèmes embarqués.
+
 Pour installer la toolchain arm il faut executer la commande :
 - `sudo apt-get install gcc-arm-none-eabi` sous *Ubuntu*
 - `brew install arm-none-eabi-gcc` sous *MacOS*
 
 ### gdb ou gdb-multiarch
+GDB est un débogueur logiciel utilisé pour trouver et corriger les erreurs dans les programmes. Il permet aux développeurs de suivre l'exécution d'un programme pas à pas, de mettre des points d'arrêt pour interrompre l'exécution à des moments précis, de visualiser les variables et les données de la mémoire, et de déboguer des programmes distribués. Il est souvent utilisé en combinaison avec des compilateurs tels que GCC pour permettre un développement efficace des programmes.
+
 Pour installer le debugger il faut executer la commande :
 - `sudo apt-get install gdb-multiarch` sous *Ubuntu*
 - `brew install gdb` sous *MacOS*
 
 ### openocd
-
+OpenOCD est un logiciel open source pour déboguer et programmer des systèmes embarqués. Il prend en charge un grand nombre de processeurs et de plateformes de développement, et permet de déboguer des systèmes en utilisant des protocoles comme le JTAG.  Il permet également la programmation de flash et la vérification de la mémoire.
 
 Pour installer l'outil openocd, sous Ubuntu il est recommandé de compiler openocd sur la machine. Il faut avoir au prealable installé les outils :
 - autoconf 
