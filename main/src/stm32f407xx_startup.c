@@ -14,6 +14,9 @@ extern uint32_t _sidata;
 extern uint32_t _sbss;
 extern uint32_t _ebss;
 
+extern void SystemInit(void);
+extern void __libc_init_array (void);
+
 //prototype of main
 
 int main(void);
@@ -36,7 +39,7 @@ void DebugMon_Handler(void) __attribute__ ((weak, alias("Default_Handler")));
 void PendSV_Handler(void) __attribute__ ((weak, alias("Default_Handler")));
 void SysTick_Handler(void) __attribute__ ((weak, alias("Default_Handler")));
 
-// STM32F411RE interrupt Handlers
+// STM32F407xx interrupt Handlers
 void WWDG_IRQHandler(void) __attribute__ ((weak, alias("Default_Handler")));
 void PVD_IRQHandler(void) __attribute__ ((weak, alias("Default_Handler")));
 void TAMP_STAMP_IRQHandler(void) __attribute__ ((weak, alias("Default_Handler")));
@@ -240,7 +243,8 @@ void Reset_Handler(void)
 		*pDst++ = 0;
 	}
 
-	//__libc_init_array();
+    SystemInit();
+	__libc_init_array();
 	main();
 	
 }

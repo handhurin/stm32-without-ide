@@ -159,9 +159,10 @@ $(TARGET) : $(CMSIS_OBJS) $(HAL_OBJS) ${MAIN_OBJS}
 	@echo "***   Target Build Done   ***"
 	@echo "*****************************"
 
-clean :
-	rm -rf $(TARGET) $(MAIN_OBJDIR)
+clean : clean-main
 
+clean-main :
+	rm -rf $(TARGET) $(MAIN_OBJDIR)
 
 clean-all : 
 	rm -rf $(BUILD_DIR)

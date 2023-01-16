@@ -15,11 +15,11 @@ MEMORY
 SECTIONS
 {
 	.isr_vector :
-  	{
-    	. = ALIGN(4);
-    	KEEP(*(.isr_vector)) /* Startup code */
-    	. = ALIGN(4);
-  	} >FLASH
+	{
+		. = ALIGN(4);
+		KEEP(*(.isr_vector)) /* Startup code */
+		. = ALIGN(4);
+	} >FLASH
 
 	.text :
 	{
@@ -39,7 +39,7 @@ SECTIONS
 	} >FLASH
 	
 	/* Utiliser dans le startup pour initialiser les datas*/
-    _sidata = LOADADDR(.data);
+	_sidata = LOADADDR(.data);
 
 	.data :
 	{

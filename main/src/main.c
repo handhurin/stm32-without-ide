@@ -32,13 +32,14 @@ UART_HandleTypeDef huart2;
 
 int main(void){
   //Initialisation des variables
+  uint32_t fooVar = 0;
 
   //Initialisation des outils
   HAL_Init();
   SystemClock_Config();
   GPIO_Init();
-  USART2_UART_Init();  
-  initialise_monitor_handles(&huart2);
+  USART2_UART_Init();
+  initialise_monitor_handles(&huart2);  
 
   /*Set LEDs default state*/
   HAL_GPIO_WritePin(LD4_GPIO_Port, LD4_Pin, GPIO_PIN_RESET);
@@ -53,7 +54,8 @@ int main(void){
     HAL_GPIO_TogglePin(LD3_GPIO_Port, LD3_Pin);
     HAL_GPIO_TogglePin(LD6_GPIO_Port, LD6_Pin);
 
-    printf("Hello world\n");
+    printf("Compteur : %d\n", fooVar);
+    fooVar++;
 
     HAL_Delay(500);
   }
