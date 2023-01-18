@@ -22,7 +22,7 @@ ifeq ($(HOST_OS), Darwin)
 	OCD = /usr/local/bin/openocd
 endif
 ifeq ($(HOST_OS), Linux)
-	CC = /usr/bin/arm-none-eabi-gcc
+	CC = /opt/arm-none-eabi/bin/arm-none-eabi-gcc
 	GDB = /usr/bin/gdb-multiarch
 	OCD = /usr/local/bin/openocd
 endif
@@ -91,7 +91,7 @@ HAL_OBJS := $(subst $(HAL_SRCDIR)/,$(HAL_OBJDIR)/,$(HAL_OBJS))
 
 # Compiler Flags
 CFLAGS = -c -mcpu=$(MACH) -std=gnu11 #Compile avec le processeur en utilisant utilisant le standard C11
-CFLAGS += --specs=nano.specs #Utilise les librairies liées à newlib-nano.
+CFLAGS += --specs=nano.specs #Utilise les librairies liées à newlib-nano qui est spécialisée dans les systèmes embarqués.
 CFLAGS += -mfpu=fpv4-sp-d16 -mfloat-abi=hard #Utilise les co-processeur qui gèrent les flottants
 CFLAGS += -mthumb #Genere des instructions 16 pour optimiser le process
 CFLAGS += -O0 #Regle l'optimisation au niveau 0 (par defaut)
@@ -111,7 +111,7 @@ LDFLAGS = -mcpu=$(MACH) -T stm32_ls.ld #Indique le processeur et utilise le fich
 LDFLAGS += --specs=nosys.specs #Desactive le semihosting (utilise des ‘faux’ fichier I/O and std I/O handlers)
 LDFLAGS += -Wl,-Map=$(TARGET_MAP) #Ajoute la map du elf
 LDFLAGS += -static #Ne fait pas de lien avec les librairies dynamiques
-LDFLAGS += --specs=nano.specs #Utilise les librairies liées à newlib-nano.
+LDFLAGS += --specs=nano.specs #Utilise les librairies liées à newlib-nano qui est spécialisée dans les systèmes embarqués.
 LDFLAGS += -mfpu=fpv4-sp-d16 -mfloat-abi=hard #Utilise les co-processeur qui gèrent les flottants
 LDFLAGS += -mthumb #Genere des instructions 16 pour optimiser le process
 LDFLAGS += -lc -lm #Inclu la lib c, la lib math et la lib gcc
