@@ -1,7 +1,7 @@
 /**
- * @file main.h
+ * @file init.h
  * @author Merlin Kooshmanian
- * @brief 
+ * @brief Initialise les outils et la HAL
  * @version 0.1
  * @date 21/01/2023
  * 
@@ -9,10 +9,9 @@
  * 
  */
 
-#ifndef MAIN_H
-#define MAIN_H
-
 /***************************** Include Files *********************************/
+
+#include <stdint.h>
 
 /************************** Constant Definitions *****************************/
 
@@ -20,6 +19,4 @@
 
 /************************** Function Prototypes ******************************/
 
-uint32_t main(void);
-
-#endif /* MAIN_H */
+uint32_t init(void);
