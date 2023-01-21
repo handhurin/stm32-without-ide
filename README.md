@@ -46,9 +46,17 @@ Pour installer l'outil make il faut executer la commande :
 ### arm-none-eabi-gcc
 GCC est un outil important pour les étudiants en développement de systèmes embarqués. Il est un compilateur libre qui convertit les codes écrits dans divers langages en fichiers exécutables pour les processeurs embarqués. Il est utilisé pour construire des applications et des bibliothèques pour les systèmes embarqués, et peut générer des codes pour différentes architectures. Il est un outil polyvalent pour le développement de systèmes embarqués.
 
-Pour installer la toolchain arm il faut executer la commande :
-- `sudo apt-get install gcc-arm-none-eabi` sous *Ubuntu*
-- `brew install arm-none-eabi-gcc` sous *MacOS*
+**Attention** dans ce projet nous avons utilisé la dernière toolchain ARM pour compiler le projet : la 10.3-xx (sur MacOS nous avons téléchargé la 10.3-2021.07 et sur Ubuntu nous avons téléchargé la 10.3-2021.10).
+
+Sous Ubuntu, il faut aller télécharger la dernière toolchain sur le site [ARM](https://developer.arm.com/downloads/-/gnu-rm). Puis extraire la toolchain avec les commandes :
+- `cd Téléchargement`
+- `sudo tar xf gcc-arm-none-eabi-10.3-2021.10-x86_64-linux.tar.bz2 --strip-components=1 -C /opt/arm-none-eabi/`
+
+Et normalement les binaires se trouve à l'adresse */opt/gcc-arm-none-eabi/bin/*. On peut ajouter le chemin au bash pour pouvoir y avoir accès en tapant juste `arm-none-eabi-gcc` dans le shell. Il suffit d'ajouter à .bashrc `export PATH="/opt/arm-none-eabi/bin:$PATH"`.
+
+
+Sous MacOS l'utilisation de brew fonctionne avec :
+- `brew install arm-none-eabi-gcc` sous *MacOS* (version 10.3-2021.07)
 
 ### gdb ou gdb-multiarch
 GDB est un débogueur logiciel utilisé pour trouver et corriger les erreurs dans les programmes. Il permet aux développeurs de suivre l'exécution d'un programme pas à pas, de mettre des points d'arrêt pour interrompre l'exécution à des moments précis, de visualiser les variables et les données de la mémoire, et de déboguer des programmes distribués. Il est souvent utilisé en combinaison avec des compilateurs tels que GCC pour permettre un développement efficace des programmes.
