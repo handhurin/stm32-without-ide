@@ -15,12 +15,20 @@
 #include <stm32f4xx.h>
 
 #include "main.h"
+#include "stm32f4xx_hal.h"
+#include "stm32f407g-discovery_bsp.h"
+
 
 /************************** Constant Definitions *****************************/
 
 /**************************** Type Definitions *******************************/
 
 /************************** Function Prototypes ******************************/
+
+static void GPIO_Init(void);
+static void USART2_UART_Init(void);
+void Error_Handler(void);
+void SystemClock_Config(void);
 
 extern void initialise_monitor_handles(UART_HandleTypeDef *huart);
 

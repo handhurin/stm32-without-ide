@@ -46,11 +46,13 @@ TARGET_DIR = $(BUILD_DIR)/target
 
 # Main Directories
 MAIN_INCDIR = $(MAIN_DIR)/inc
+MAINCONF_INCDIR = $(MAIN_DIR)/inc/conf
 MAIN_SRCDIR = $(MAIN_DIR)/src
+MAINCONF_SRCDIR = $(MAIN_DIR)/src/conf
 MAIN_OBJDIR = $(BUILD_DIR)/main
 
 # Files
-MAIN_SRCS = $(wildcard $(MAIN_SRCDIR)/*.c)
+MAIN_SRCS = $(wildcard $(MAIN_SRCDIR)/*.c $(MAINCONF_SRCDIR)/*.c)
 MAIN_OBJS = $(MAIN_SRCS:.c=.o)
 MAIN_OBJS := $(subst $(MAIN_SRCDIR)/,$(MAIN_OBJDIR)/,$(MAIN_OBJS))
 TARGET = $(TARGET_DIR)/final.elf
@@ -100,7 +102,7 @@ CFLAGS += -O0 #Regle l'optimisation au niveau 0 (par defaut)
 DBGCFLAGS = -g3 -DDEBUG
 
 #Includes
-INCFLAGS = -I$(MAIN_INCDIR)
+INCFLAGS = -I$(MAIN_INCDIR) -I$(MAINCONF_INCDIR)
 INCFLAGS += -I$(CMSIS_INCDIR)
 INCFLAGS += -I$(CMSIS_INCDIR_DEVICE) -D $(CHIP)
 INCFLAGS += -I$(HAL_INCDIR)
@@ -180,8 +182,5 @@ gdb:
 	$(GDB) --eval-command="target remote localhost:3333" $(TARGET)
 
 echoes :
-	@echo "Host OS : $(HOST_OS)"
-	@echo "MAIN Directory : $(MAIN_DIR)"
-	@echo "TOOLS Directory : $(TOOLS_DIR)"
-	@echo "CMSIS Directory : $(CMSIS_DIR)"
-	@echo "HAL Directory : $(HAL_DIR)"
+	@echo "MAIN SRCS : \n$(MAIN_SRCS)"
+	@echo "MAIN OBJS : \n$(MAIN_OBJS)"

@@ -17,7 +17,6 @@
 
 /***************************** Include Files *********************************/
 #include "stm32f4xx_it.h"
-#include "main.h"
 
 /******************************************************************************/
 /*           Cortex-M4 Processor Interruption and Exception Handlers          */
