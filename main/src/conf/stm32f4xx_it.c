@@ -17,6 +17,7 @@
 
 /***************************** Include Files *********************************/
 #include "stm32f4xx_it.h"
+#include "stm32f407g-discovery_bsp.h"
 
 /******************************************************************************/
 /*           Cortex-M4 Processor Interruption and Exception Handlers          */
@@ -94,4 +95,12 @@ void PendSV_Handler(void){
 void SysTick_Handler(void)
 {
   HAL_IncTick();
+}
+
+/**
+  * @brief This function handles EXTernal Interrupt 0 handler.
+  */
+void EXTI0_IRQHandler(void)
+{
+  HAL_GPIO_EXTI_IRQHandler(B1_Pin);
 }
