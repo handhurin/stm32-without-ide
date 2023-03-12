@@ -22,7 +22,7 @@ ifeq ($(HOST_OS), Darwin)
 	OCD = /usr/local/bin/openocd
 endif
 ifeq ($(HOST_OS), Linux)
-	CC = /opt/arm-none-eabi/bin/arm-none-eabi-gcc
+	CC = /usr/bin/arm-none-eabi-gcc
 	GDB = /usr/bin/gdb-multiarch
 	OCD = /usr/local/bin/openocd
 endif

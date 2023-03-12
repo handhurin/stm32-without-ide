@@ -46,14 +46,17 @@ Pour installer l'outil make il faut executer la commande :
 ### arm-none-eabi-gcc
 GCC est un outil important pour les étudiants en développement de systèmes embarqués. Il est un compilateur libre qui convertit les codes écrits dans divers langages en fichiers exécutables pour les processeurs embarqués. Il est utilisé pour construire des applications et des bibliothèques pour les systèmes embarqués, et peut générer des codes pour différentes architectures. Il est un outil polyvalent pour le développement de systèmes embarqués.
 
-**Attention** dans ce projet nous avons utilisé la dernière toolchain ARM pour compiler le projet : la 10.3-xx (sur MacOS nous avons téléchargé la 10.3-2021.07 et sur Ubuntu nous avons téléchargé la 10.3-2021.10).
+**Attention** dans ce projet nous avons utilisé la dernière toolchain ARM pour compiler le projet : la 10.3-xx (sur MacOS nous avons téléchargé la 10.3-2021.07 et sur Ubuntu nous avons téléchargé la 10.3-2021.07).
 
-Sous Ubuntu, il faut aller télécharger la dernière toolchain sur le site [ARM](https://developer.arm.com/downloads/-/gnu-rm). Puis extraire la toolchain avec les commandes :
-- `cd Téléchargement`
-- `sudo tar xf gcc-arm-none-eabi-10.3-2021.10-x86_64-linux.tar.bz2 --strip-components=1 -C /opt/arm-none-eabi/`
+Sous Ubuntu, pour telecharger la dernière toolchain il faut faire :
+- `sudo apt-get remove binutils-arm-none-eabi gcc-arm-none-eabi`
+- `sudo add-apt-repository ppa:team-gcc-arm-embedded/ppa`
+- `sudo apt-get install gcc-arm-none-eabi`
 
-Et normalement les binaires se trouve à l'adresse */opt/gcc-arm-none-eabi/bin/*. On peut ajouter le chemin au bash pour pouvoir y avoir accès en tapant juste `arm-none-eabi-gcc` dans le shell. Il suffit d'ajouter à .bashrc `export PATH="/opt/arm-none-eabi/bin:$PATH"`.
+On peut eventuellement installer le GDB qui va avec même si on ne l'utilisera pas (on utilise gdb multi-arch à la place).
+- `sudo apt-get install gdb-arm-none-eabi`
 
+Et normalement les binaires se trouve à l'adresse */usr/bin/arm-none-eabi-gcc*.
 
 Sous MacOS l'utilisation de brew fonctionne avec :
 - `brew install arm-none-eabi-gcc` sous *MacOS* (version 10.3-2021.07)
