@@ -1,4 +1,4 @@
-# Projet Bare Metal
+# Projet STM32 sans IDE
 
 ## Introduction
 ### Abreviations
@@ -12,7 +12,7 @@
 | MCU   | MicroController Unit                 |
 
 ### Contexte
-Ce projet consiste en un développement de logiciel pour un microcontrôleur STM32 en utilisant un environnement de développement bare metal. Il n'utilise pas de système d'exploitation pour faire tourner le programme, mais accède directement au matériel. Cela nécessite une configuration manuelle des différents périphériques du microcontrôleur et une gestion directe de l'accès à la mémoire et aux entrées/sorties.
+Ce projet consiste en un développement de logiciel pour un microcontrôleur STM32 en utilisant un environnement de développement bare metal sans IDE. Il n'utilise pas de système d'exploitation pour faire tourner le programme, mais accède directement au matériel. Cela nécessite une configuration manuelle des différents périphériques du microcontrôleur et une gestion directe de l'accès à la mémoire et aux entrées/sorties.
 
 Pour mettre en œuvre ce projet, les outils suivants ont été utilisés : Make pour automatiser le processus de construction, un GCC pour compiler le code source en code binaire exécutable, GDB pour déboguer le code et OpenOCD pour charger le programme et faire l'interface entre la carte et GDB. Un makefile est utilisé pour définir les étapes de la construction, les dépendances entre les fichiers et les options de compilation. Le compilateur **arm-none-eabi-gcc** est utilisé pour compiler les fichiers source et créer des fichiers binaires exécutables pour le microcontrôleur. Le debugger **gdb** (**gdb-multiarch**) est utilisé pour déboguer le code en cours d'exécution sur le matériel, permettant de suivre l'exécution du code, de mettre des points d'arrêt et d'inspecter les variables. Enfin, OpenOCD est utilisé pour charger le programme sur la carte et pour établir une interface entre la carte et GDB.
 
