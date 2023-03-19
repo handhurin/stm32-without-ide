@@ -40,7 +40,7 @@ Les outils necessaires au fonctionnement de ce projet sont :
 Make est un outil de construction automatisé pour compiler les logiciels, il lit un fichier de configuration "makefile" pour construire les parties du logiciel, il permet de gagner du temps en ne recompilant que les parties modifiées et de gérer les dépendances entre différents fichiers pour créer des exécutables ou des bibliothèques.
 
 Pour installer l'outil make il faut executer la commande :
-- `sudo apt-get install make` sous *Ubuntu*
+- `sudo apt install make` sous *Ubuntu*
 - `brew install make` sous *MacOS*
 
 ### arm-none-eabi-gcc
@@ -49,29 +49,25 @@ GCC est un outil important pour les étudiants en développement de systèmes em
 **Attention** dans ce projet nous avons utilisé la dernière toolchain ARM pour compiler le projet : la 10.3-xx (sur MacOS nous avons téléchargé la 10.3-2021.07 et sur Ubuntu nous avons téléchargé la 10.3-2021.07).
 
 Sous Ubuntu, pour telecharger la dernière toolchain il faut faire :
-- `sudo apt-get remove binutils-arm-none-eabi gcc-arm-none-eabi`
-- `sudo add-apt-repository ppa:team-gcc-arm-embedded/ppa`
-- `sudo apt-get install gcc-arm-none-eabi`
+- `sudo apt install gcc-arm-none-eabi` sous *Ubuntu* (fonctionne avec Ubuntu 22.10)
+- `brew install arm-none-eabi-gcc` sous *MacOS*
 
-On peut eventuellement installer le GDB qui va avec même si on ne l'utilisera pas (on utilise gdb multi-arch à la place).
-- `sudo apt-get install gdb-arm-none-eabi`
-
-Et normalement les binaires se trouve à l'adresse */usr/bin/arm-none-eabi-gcc*.
-
-Sous MacOS l'utilisation de brew fonctionne avec :
-- `brew install arm-none-eabi-gcc` sous *MacOS* (version 10.3-2021.07)
+Il faut verifier que la version 10.3-2021.07 (ou version ultérieur) s'est téléchargée sinon l'installer manuellement.
 
 ### gdb ou gdb-multiarch
 GDB est un débogueur logiciel utilisé pour trouver et corriger les erreurs dans les programmes. Il permet aux développeurs de suivre l'exécution d'un programme pas à pas, de mettre des points d'arrêt pour interrompre l'exécution à des moments précis, de visualiser les variables et les données de la mémoire, et de déboguer des programmes distribués. Il est souvent utilisé en combinaison avec des compilateurs tels que GCC pour permettre un développement efficace des programmes.
 
 Pour installer le debugger il faut executer la commande :
-- `sudo apt-get install gdb-multiarch` sous *Ubuntu*
+- `sudo apt install gdb-multiarch` sous *Ubuntu*
 - `brew install gdb` sous *MacOS*
 
 ### openocd
 OpenOCD est un logiciel open source pour déboguer et programmer des systèmes embarqués. Il prend en charge un grand nombre de processeurs et de plateformes de développement, et permet de déboguer des systèmes en utilisant des protocoles comme le JTAG.  Il permet également la programmation de flash et la vérification de la mémoire.
 
-Pour installer l'outil openocd, sous Ubuntu il est recommandé de compiler openocd sur la machine. Il faut avoir au prealable installé les outils :
+Pour installer l'outil openocd, sous Ubuntu il est recommandé de compiler openocd sur la machine. Neanmoins sur des versions récente de Ubuntu (dans mon cas 22.10), il suffit de faire :
+`sudo apt install openocd`
+
+Pour compiler openocd. Il faut avoir au prealable installé les outils :
 - autoconf 
 - libtool 
 - pkg-config 
@@ -79,11 +75,12 @@ Pour installer l'outil openocd, sous Ubuntu il est recommandé de compiler openo
 - libusb-1.0-0-dev
 
 Il faut ensuite telecharger les codes sources de openocd, et les compiler en faisant :
-1. `cd openocd`
-2. `./bootstrap`
-3. `./configure --enable-ftdi --enable-stlink`
-4. `make`
-5. `sudo make install`
+1. `git clone git://git.code.sf.net/p/openocd/code openocd-code`
+2. `cd openocd`
+3. `./bootstrap`
+4. `./configure --enable-ftdi --enable-stlink`
+5. `make`
+6. `sudo make install`
 Et normalement openocd est prêt à l'emploi.
 
 Sous MacOS l'utilisation de brew fonctionne avec :

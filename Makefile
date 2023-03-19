@@ -24,7 +24,7 @@ endif
 ifeq ($(HOST_OS), Linux)
 	CC = /usr/bin/arm-none-eabi-gcc
 	GDB = /usr/bin/gdb-multiarch
-	OCD = /usr/local/bin/openocd
+	OCD = /usr/bin/openocd
 endif
 
 ##############################################
